@@ -40,6 +40,18 @@ const rootReducer = (state = INIT_STATE, action) => {
         totalCartValue: calcTotal(state.products, cart, state.discountTotal),
       }
     }
+    case APPLY_DISCOUNT: {
+      if (state.appliedDiscount === false && discountValues[action.discount]) {
+        const discountAmount = discountValues[action.discount]
+        return {
+          ...state,
+          totalCartValue: calcTotal(state.products, state.itemsInCart, discountAmount),
+          appliedDiscount: true,
+          discountAmount,
+        }
+      }
+      return state
+    }
     default:
       return state
   }
